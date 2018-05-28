@@ -1,4 +1,3 @@
-import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldEqual
 import io.kotlintest.matchers.shouldThrow
@@ -119,6 +118,26 @@ class ListProblems : StringSpec({
     "P12: list decode" {
         decode(listOf(Pair(4, 'a'), Pair(1, 'b'), Pair(2, 'c'), Pair(2, 'a'), Pair(1, 'd'), Pair(4, 'e')))
                 .shouldBe(listOf('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e'))
+    }
+
+    "P13: encode direct" {
+        encodeDirect("aaaabccaadeeee".toList())
+                .shouldBe(listOf(Pair(4, 'a'), Pair(1, 'b'), Pair(2, 'c'), Pair(2, 'a'), Pair(1, 'd'), Pair(4, 'e')))
+    }
+
+    "P14: duplicate elements in list" {
+        duplicate("abccd".toList())
+                .shouldBe(listOf('a', 'a', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd'))
+    }
+
+    "P15: duplicate n elements in list" {
+        duplicateN(3, "abccd".toList())
+                .shouldBe(listOf('a', 'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'c', 'c', 'd', 'd', 'd'))
+    }
+
+    "P16: drop every n elements in list" {
+        drop(3, "abcdefghijk".toList())
+                .shouldBe(listOf('a', 'b', 'd', 'e', 'g', 'h', 'j', 'k'))
     }
 })
 
