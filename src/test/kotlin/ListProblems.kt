@@ -1,3 +1,4 @@
+import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldEqual
 import io.kotlintest.matchers.shouldThrow
@@ -109,9 +110,15 @@ class ListProblems : StringSpec({
         encode("aaaabccaadeeee".toList())
                 .shouldBe(listOf(Pair(4, 'a'), Pair(1, 'b'), Pair(2, 'c'), Pair(2, 'a'), Pair(1, 'd'), Pair(4, 'e')))
     }
+
+    "P11: list encoding modified" {
+        encodeModified("aaaabccaadeeee".toList())
+                .shouldBe(listOf(Pair(4, 'a'), 'b', Pair(2, 'c'), Pair(2, 'a'), 'd', Pair(4, 'e')))
+    }
+
+    "P12: list decode" {
+        decode(listOf(Pair(4, 'a'), Pair(1, 'b'), Pair(2, 'c'), Pair(2, 'a'), Pair(1, 'd'), Pair(4, 'e')))
+                .shouldBe(listOf('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e'))
+    }
 })
 
-fun <T> encode(value: List<T>): List<Pair<Int, T>> =
-    pack(value).map {
-        Pair(it.size, it.first())
-    }
